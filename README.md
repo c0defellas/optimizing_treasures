@@ -1,4 +1,4 @@
-Optimize_treasures
+Optimizing_treasures
 ==================
 
 Just another collection of low level optimization codes.
