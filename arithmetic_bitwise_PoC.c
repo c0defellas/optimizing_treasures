@@ -5,7 +5,7 @@ Contact: c00f3r[at]gmail[dot]com
 Compares arithmetic division with bitwise and  without... 
 test CPU cycles...
 
-gcc -o code code.c -Ofast
+gcc -o code code.c 
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,7 +29,7 @@ void mul()
  
 void leftshift()
 {
- int x=50,y=0;
+ register int x=50,y=0;
  while(x)
  {
   y=x<<1;
@@ -44,7 +44,7 @@ unsigned div7(unsigned n)
  
 unsigned bit_div7(unsigned num)
 {   
- unsigned x,y;
+ register unsigned x,y;
  
  x=(num>>1)+(num>>4);
  x+=x>>6;
@@ -64,7 +64,7 @@ unsigned div3(unsigned n)
 // 
 unsigned bit_div3(unsigned num)
 {
- unsigned x,y;
+ register unsigned x,y;
   
  x=(num>>2)+(num>>4);
  x+=x>>4;
@@ -81,9 +81,9 @@ unsigned bit_div3(unsigned num)
  
 int main(void)
 {
-  int i, x;
-  uint32_t a, b, c, d;
-  uint64_t y;
+  int x=0;
+  uint32_t a=0, b=0, c=0, d=0;
+  register uint64_t y=0;
  
   x = 0;
   do {
