@@ -5,7 +5,7 @@ Contact: c00f3r[at]gmail[dot]com
 Compares arithmetic division with bitwise and  without... 
 test CPU cycles...
 
-gcc -o code code.c 
+$ gcc -o code code.c; ./code 
 */
 #include <stdio.h>
 #include <stdlib.h>
