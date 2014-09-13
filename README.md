@@ -9,6 +9,8 @@ Just another collection of low level optimization codes.
 
   http://www.hackersdelight.org/
   
+  http://www.cs.fsu.edu/~engelen/courses/HPC/
+  
   https://software.intel.com/en-us/articles/step-by-step-optimizing-with-intel-c-compiler
   
   https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html
@@ -18,6 +20,10 @@ Just another collection of low level optimization codes.
   http://bmagic.sourceforge.net/bmsse2opt.html
 
   http://mark.masmcode.com/
+  
+  https://developer.nvidia.com/cuda-training
+  
+  http://developer.amd.com/partners/university-programs/opencl-university-course-listings/
 
   http://www.agner.org/optimize/optimizing_assembly.pdf
 
