@@ -7,6 +7,8 @@ Just another collection of low level optimization codes.
 
 #References:
 
+  https://software.intel.com/en-us/articles/intel-software-autotuning-tool
+
   http://www.hackersdelight.org/
   
   http://www.cs.fsu.edu/~engelen/courses/HPC/
@@ -21,11 +23,16 @@ Just another collection of low level optimization codes.
 
   http://mark.masmcode.com/
   
+  https://software.intel.com/en-us/blogs/2012/09/26/gcc-x86-performance-hints
+  
   https://developer.nvidia.com/cuda-training
   
   http://developer.amd.com/partners/university-programs/opencl-university-course-listings/
 
   http://www.agner.org/optimize/optimizing_assembly.pdf
+  
+  http://ctuning.org/wiki/index.php/CTools:MilepostGCC
+  
 
   http://www.azillionmonkeys.com/qed/optimize.html
 
