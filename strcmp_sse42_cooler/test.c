@@ -8,11 +8,39 @@ contact: c00f3r@gmail.com
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <pcre.h>
 #include <x86intrin.h>
 #include <cpuid.h>
 #include <inttypes.h>
 #include <stdint.h>
+
+
+void cpu_get(int* cpuinfo, int info)
+{
+	__asm__ __volatile__(
+		"xchg %%ebx, %%edi;"
+		"cpuid;"
+		"xchg %%ebx, %%edi;"
+		:"=a" (cpuinfo[0]), "=D" (cpuinfo[1]), "=c" (cpuinfo[2]), "=d" (cpuinfo[3])
+		:"0" (info)
+	);
+}
+
+void test_sse42_enable()
+{
+	int cpuinfo[4];
+	int sse42=0;
+
+	cpu_get(cpuinfo,1);
+
+	sse42=cpuinfo[2] & (1 << 20) || 0;
+
+	if(sse42)
+		puts("SSE4.2 Test...\n OK SSE 4.2 instruction enable !\n");
+	else {
+		puts("SSE4.2 Not enabled\n your CPU need SSE 4.2 instruction to run this programm\n");
+		exit(0);
+	}
+}
 
 #define array_elements(array) (sizeof(array) / sizeof *(array))
 
@@ -82,6 +110,7 @@ static void call_count2()
 
 int main()
 {
+	test_sse42_enable();
 
 	long int x=0;
 	uint32_t a = 0, b = 0, c = 0, d = 0;
