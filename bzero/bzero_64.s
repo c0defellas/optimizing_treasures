@@ -15,11 +15,11 @@ bzero_longbuffer:
 	xor	%rax, %rax
 
 	mov	%rsi, %rcx
-	and	$0xfffffffffffffffb, %rcx
+	and	$0xfffffffffffffffc, %rcx
 	sub	%rcx, %rsi			# %rsi = (len % 8)
 	shr	$2, %rcx			# %rcx = (len - %rsi) / 8
 
-	repnz	stosw
+	repnz	stosl
 
 	mov	%rsi, %rcx
 	repnz	stosb
