@@ -20,7 +20,7 @@ static void (*cf_bzero)(void *, size_t len) = bzero_longbuffer;
 int main(void){
 	char buf1[SSIZE];
 	char buf2[LSIZE];
-	
+
 	register long long c;
 
 	//test short buffer
@@ -28,26 +28,26 @@ int main(void){
 	c = _rdtsc();
 	bzero(buf1, SSIZE);
 	c = _rdtsc() - c;
-	printf("bzero (libc):        %lld cicles\n", c);
-	
+	printf("bzero (libc):        %lld cycles\n", c);
+
 	c = _rdtsc();
 	cf_bzero(buf1, SSIZE);
 	c = _rdtsc() - c;
-	printf("bzero (c0defellas):  %lld cicles\n", c);
-	
+	printf("bzero (c0defellas):  %lld cycles\n", c);
+
 	puts("");
-	
+
 	//test long buffer
 	printf("Buffer size is: %d\n", LSIZE);
 	c = _rdtsc();
 	bzero(buf2, LSIZE);
 	c = _rdtsc() - c;
-	printf("bzero (libc):        %lld cicles\n", c);
-	
+	printf("bzero (libc):        %lld cycles\n", c);
+
 	c = _rdtsc();
 	cf_bzero(buf2, LSIZE);
 	c = _rdtsc() - c;
-	printf("bzero (c0defellas):  %lld cicles\n", c);
-	
+	printf("bzero (c0defellas):  %lld cycles\n", c);
+
 	return 0;
 }
