@@ -16,8 +16,8 @@ bzero_longbuffer:
 
 	mov	8(%ebp), %ecx
 	and	$0xfffffffc, %ecx
-	sub	%ecx, 8(%ebp)		# 8(%ebp) = (len % 8)
-	shr	$2, %ecx		# %ecx = (len - (8(%ebp))) / 8
+	sub	%ecx, 8(%ebp)		# 8(%ebp) = (len % 4)
+	shr	$2, %ecx		# %ecx = (len - (8(%ebp))) / 4
 
 	repnz	stosl
 
