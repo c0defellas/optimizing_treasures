@@ -16,8 +16,8 @@ bzero_longbuffer:
 
 	mov	%rsi, %rcx
 	and	$0xfffffffffffffffc, %rcx
-	sub	%rcx, %rsi			# %rsi = (len % 8)
-	shr	$2, %rcx			# %rcx = (len - %rsi) / 8
+	sub	%rcx, %rsi			# %rsi = (len % 4)
+	shr	$2, %rcx			# %rcx = (len - %rsi) / 4
 
 	repnz	stosl
 
