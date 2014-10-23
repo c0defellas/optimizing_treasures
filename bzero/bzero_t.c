@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdint.h>
+#include <inttypes.h>
 #include <unistd.h>
 #include <math.h>
 #include <sched.h>
@@ -31,81 +31,126 @@ static int setonlyonecpu(void){
 	return sched_setaffinity(getpid(), sizeof(cpu_set_t), &cpuset);
 }
 
-static double mean(const uint64_t *v, size_t len){
-	size_t i;
-	double temp = 0;
-	
-	if(len > 0){
-		for(i = 0; i < len; i++){
-			temp += v[i];
-		}
-		
-		temp /= len;
-	}
-	
-	return temp;
-}
 
 int main(void){
 	char buf1[SHORTBUF];
 	char buf2[LONGBUF];
-	uint64_t samples[NSAMPLES];
-	register long long temp = 0;
+	char *hbuf1 = NULL;
+	char *hbuf2 = NULL;
+	
+	uint64_t sum = 0;
+	register uint64_t temp = 0;
 	int i;
-
-	if(setonlyonecpu() < 0){
-		perror("Error when setting only one cpu");
-		exit(1);
+	
+	hbuf1 = (char *)malloc(SHORTBUF);
+	hbuf2 = (char *)malloc(LONGBUF);
+	
+	if((!hbuf1) || (!hbuf2)){
+		fprintf(stderr, "malloc fail\n");
+		exit(EXIT_FAILURE);
 	}
 	
-	printf("Testing with [%d] samples\n", NSAMPLES);
+	
+	if(setonlyonecpu() < 0){
+		perror("Error when setting only one cpu");
+		exit(EXIT_FAILURE);
+	}
 
 	/* ----------------- test short buffer -------------------------------- */
-	printf("Buffer size [%d]\n", SHORTBUF);
+	printf("STACK BUFFER [%d]\n", SHORTBUF);
 	
 	for(i = 0; i < NSAMPLES; i++){
 		temp = _rdtsc();
 		bzero(buf1, SHORTBUF);
 		temp = _rdtsc() - temp;
 		
-		samples[i] = temp;
+		sum += temp;
 	}
-	printf("bzero (libc):       %.4f [mean]\n", mean(samples, NSAMPLES));
+	printf("bzero (libc):       %" PRIu64 " cycles\n", sum);
 	
+	sum = 0;
 	for(i = 0; i < NSAMPLES; i++){
 		temp = _rdtsc();
 		cf_bzero(buf1, SHORTBUF);
 		temp = _rdtsc() - temp;
 		
-		samples[i] = temp;
+		sum += temp;
 	}
-	printf("bzero (c0defellas): %.4f [mean]\n", mean(samples, NSAMPLES));
+	printf("bzero (c0defellas): %" PRIu64 " cycles\n", sum);
 
 	puts("");
-	temp = 0;
+	
+	
+	printf("HEAP BUFFER [%d]\n", SHORTBUF);
+	sum = 0;
+	for(i = 0; i < NSAMPLES; i++){
+		temp = _rdtsc();
+		bzero(hbuf1, SHORTBUF);
+		temp = _rdtsc() - temp;
+		
+		sum += temp;
+	}
+	printf("bzero (libc):       %" PRIu64 " cycles\n", sum);
+	
+	sum = 0;
+	for(i = 0; i < NSAMPLES; i++){
+		temp = _rdtsc();
+		cf_bzero(hbuf1, SHORTBUF);
+		temp = _rdtsc() - temp;
+		
+		sum += temp;
+	}
+	printf("bzero (c0defellas): %" PRIu64 " cycles\n", sum);
+	
+	puts("");
 	
 	/* ----------------- test long buffer -------------------------------- */
-	printf("Buffer size [%d]\n", LONGBUF);
-	
+	printf("STACK BUFFER [%d]\n", LONGBUF);
+	sum = 0;
 	for(i = 0; i < NSAMPLES; i++){
 		temp = _rdtsc();
 		bzero(buf2, LONGBUF);
 		temp = _rdtsc() - temp;
 		
-		samples[i] = temp;
+		sum += temp;
 	}
-	printf("bzero (libc):       %.4f [mean]\n", mean(samples, NSAMPLES));
+	printf("bzero (libc):       %" PRIu64 " cycles\n", sum);
 	
-	temp = 0;
-	
+	sum = 0;
 	for(i = 0; i < NSAMPLES; i++){
 		temp = _rdtsc();
 		cf_bzero(buf2, LONGBUF);
 		temp = _rdtsc() - temp;
 		
-		samples[i] = temp;
+		sum += temp;
 	}
-	printf("bzero (c0defellas): %.4f [average]\n", mean(samples, NSAMPLES));
+	printf("bzero (c0defellas): %" PRIu64 " cycles\n", sum);
+	
+	puts("");
+	
+	printf("HEAP BUFFER [%d]\n", LONGBUF);
+	sum = 0;
+	for(i = 0; i < NSAMPLES; i++){
+		temp = _rdtsc();
+		bzero(hbuf2, LONGBUF);
+		temp = _rdtsc() - temp;
+		
+		sum += temp;
+	}
+	printf("bzero (libc):       %" PRIu64 " cycles\n", sum);
+	
+	sum = 0;
+	for(i = 0; i < NSAMPLES; i++){
+		temp = _rdtsc();
+		cf_bzero(hbuf2, LONGBUF);
+		temp = _rdtsc() - temp;
+		
+		sum += temp;
+	}
+	printf("bzero (c0defellas): %" PRIu64 " cycles\n", sum);
+	
+	free(hbuf1);
+	free(hbuf2);
 
 	return 0;
 }
