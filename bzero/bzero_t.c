@@ -1,8 +1,8 @@
-/* 
+/*
  * bzero_t.c - test bzero functions
  * Joao Guilherme aka "pl4nkt0n"
  * jgvictorino1 [at] gmail [dot] com
- * 
+ *
  */
 
 #define _GNU_SOURCE
@@ -37,20 +37,20 @@ int main(void){
 	char buf2[LONGBUF];
 	char *hbuf1 = NULL;
 	char *hbuf2 = NULL;
-	
+
 	uint64_t sum = 0;
 	register uint64_t temp = 0;
 	int i;
-	
+
 	hbuf1 = (char *)malloc(SHORTBUF);
 	hbuf2 = (char *)malloc(LONGBUF);
-	
+
 	if((!hbuf1) || (!hbuf2)){
 		fprintf(stderr, "malloc fail\n");
 		exit(EXIT_FAILURE);
 	}
-	
-	
+
+
 	if(setonlyonecpu() < 0){
 		perror("Error when setting only one cpu");
 		exit(EXIT_FAILURE);
@@ -58,52 +58,52 @@ int main(void){
 
 	/* ----------------- test short buffer -------------------------------- */
 	printf("STACK BUFFER [%d]\n", SHORTBUF);
-	
+
 	for(i = 0; i < NSAMPLES; i++){
 		temp = _rdtsc();
 		bzero(buf1, SHORTBUF);
 		temp = _rdtsc() - temp;
-		
+
 		sum += temp;
 	}
 	printf("bzero (libc):       %" PRIu64 " cycles\n", sum);
-	
+
 	sum = 0;
 	for(i = 0; i < NSAMPLES; i++){
 		temp = _rdtsc();
 		cf_bzero(buf1, SHORTBUF);
 		temp = _rdtsc() - temp;
-		
+
 		sum += temp;
 	}
 	printf("bzero (c0defellas): %" PRIu64 " cycles\n", sum);
 
 	puts("");
-	
-	
+
+
 	printf("HEAP BUFFER [%d]\n", SHORTBUF);
 	sum = 0;
 	for(i = 0; i < NSAMPLES; i++){
 		temp = _rdtsc();
 		bzero(hbuf1, SHORTBUF);
 		temp = _rdtsc() - temp;
-		
+
 		sum += temp;
 	}
 	printf("bzero (libc):       %" PRIu64 " cycles\n", sum);
-	
+
 	sum = 0;
 	for(i = 0; i < NSAMPLES; i++){
 		temp = _rdtsc();
 		cf_bzero(hbuf1, SHORTBUF);
 		temp = _rdtsc() - temp;
-		
+
 		sum += temp;
 	}
 	printf("bzero (c0defellas): %" PRIu64 " cycles\n", sum);
-	
+
 	puts("");
-	
+
 	/* ----------------- test long buffer -------------------------------- */
 	printf("STACK BUFFER [%d]\n", LONGBUF);
 	sum = 0;
@@ -111,46 +111,49 @@ int main(void){
 		temp = _rdtsc();
 		bzero(buf2, LONGBUF);
 		temp = _rdtsc() - temp;
-		
+
 		sum += temp;
 	}
 	printf("bzero (libc):       %" PRIu64 " cycles\n", sum);
-	
+
 	sum = 0;
 	for(i = 0; i < NSAMPLES; i++){
 		temp = _rdtsc();
 		cf_bzero(buf2, LONGBUF);
 		temp = _rdtsc() - temp;
-		
+
 		sum += temp;
 	}
 	printf("bzero (c0defellas): %" PRIu64 " cycles\n", sum);
-	
+
 	puts("");
-	
+
 	printf("HEAP BUFFER [%d]\n", LONGBUF);
 	sum = 0;
 	for(i = 0; i < NSAMPLES; i++){
 		temp = _rdtsc();
 		bzero(hbuf2, LONGBUF);
 		temp = _rdtsc() - temp;
-		
+
 		sum += temp;
 	}
 	printf("bzero (libc):       %" PRIu64 " cycles\n", sum);
-	
+
 	sum = 0;
 	for(i = 0; i < NSAMPLES; i++){
 		temp = _rdtsc();
 		cf_bzero(hbuf2, LONGBUF);
 		temp = _rdtsc() - temp;
-		
+
 		sum += temp;
 	}
 	printf("bzero (c0defellas): %" PRIu64 " cycles\n", sum);
-	
+
 	free(hbuf1);
 	free(hbuf2);
+
+	hbuf1 = NULL;
+	hbuf2 = NULL;
 
 	return 0;
 }
