@@ -112,13 +112,11 @@ int main()
 {
 	test_sse42_enable();
 
-	long int x=0;
-	uint32_t a = 0, b = 0, c = 0, d = 0;
+	register long int x=0;
 	register long long y = 0;
 
   	x = 0;
   	do {
-		__cpuid(0, a, b, c, d);
 		y = _rdtsc();
 		call_count();
 		y = _rdtsc() - y;
@@ -133,7 +131,6 @@ int main()
 	matchs=0;
   	x = 0;
   	do {
-		__cpuid(0, a, b, c, d);
 		y = _rdtsc();
 		call_count2();
 		y = _rdtsc() - y;
