@@ -1,17 +1,17 @@
 #
 # bzero_64.s
-# Attempt to optimize the function bzero
+# Trying to optimize the function bzero - this seems better to long buffers
 # by Joao Guilherme aka "pl4nkt0n"
 #
 # jgvictorino1 [at] gmail [dot] com
 
 .section .text
 
-.global bzero_longbuffer
+.global my_bzero
 
-.type bzero_longbuffer, @function
+.type my_bzero, @function
 
-bzero_longbuffer:
+my_bzero:
 	xor	%rax, %rax
 
 	mov	%rsi, %rcx

@@ -1,28 +1,34 @@
 #
 # bzero_32.s
-# Attempt to optimize the function bzero
+# Trying to optimize the function bzero - this seems better to long buffers
 # by Joao Guilherme aka "pl4nkt0n"
 #
 # jgvictorino1 [at] gmail [dot] com
 
 .section .text
 
-.global bzero_longbuffer
+.global my_bzero
 
-.type bzero_longbuffer, @function
+.type my_bzero, @function
 
-bzero_longbuffer:
+my_bzero:
+	push	%ebp
+	mov	%esp, %ebp
 	xor	%eax, %eax
-
-	mov	8(%ebp), %ecx
+	
+	mov	8(%ebp), %edi
+	mov	12(%ebp), %edx
+	
+	mov	%edx, %ecx
 	and	$0xfffffffc, %ecx
-	sub	%ecx, 8(%ebp)		# 8(%ebp) = (len % 4)
-	shr	$2, %ecx		# %ecx = (len - (8(%ebp))) / 4
+	sub	%ecx, %edx		# %edx = (len % 4)
+	shr	$2, %ecx		# %ecx = (len - %edx) / 4
 
 	repnz	stosl
 
-	mov	8(%ebp), %ecx
+	mov	%edx, %ecx
 	repnz	stosb
 
+	mov	%ebp, %esp
+	pop	%ebp
 	ret
-
