@@ -1,7 +1,8 @@
+// string functions by CoolerVoid
 #include <stdio.h>
 #include <stdlib.h>
 /*
-
+https://software.intel.com/sites/landingpage/IntrinsicsGuide/
 +----------------+------------------------------------------------------------------------------------------+
 |     Header     |                                         Purpose                                          |
 +----------------+------------------------------------------------------------------------------------------+
@@ -44,7 +45,7 @@ inline size_t strnlen_sse42(const char* str, size_t size)
 
 		const int mode = _SIDD_UBYTE_OPS | _SIDD_CMP_EQUAL_EACH | _SIDD_LEAST_SIGNIFICANT;
 
-
+// http://www.felixcloutier.com/x86/PCMPISTRM.html
 		if(_mm_cmpistrc(data, zeros, mode)) 
 		{
 			const int idx = _mm_cmpistri(data, zeros, mode);
@@ -133,23 +134,4 @@ inline int strnchr_sse42(const char* str, size_t c, size_t size)
 	return 0;
 }
 
-int strstr_sse42(const char *str, size_t strsize, const char *str2cmp, size_t size2cmp)
-{
-		
-
-	
-
-	return 0;
-}
-
-
-
-int main() 
-{
-	char *test="babaca babaca cara\n";
-
-	printf("%s\n",test);	
-
-
-}
 
