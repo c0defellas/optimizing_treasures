@@ -209,7 +209,7 @@ int main()
 
 	} while (++x < 2);
  
-	printf("::: Re2c : %ld  cicles\n", y);
+	printf("::: Re2c  direct DFA : %ld  cicles\n", y);
 	fprintf(stdout,"Array size of words is: %ld \n",array_elements(text));	
 	fprintf(stdout,"Benchmark match posix regex [0-9]{4}(-| )[0-9]{4} - total matches : %d \n",matchs);
 
