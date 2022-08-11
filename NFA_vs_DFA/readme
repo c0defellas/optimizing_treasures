@@ -1,4 +1,0 @@
-Install libs and compiler
-apt install libpcre2-dev gcc make
-
-sh run_bench.sh
