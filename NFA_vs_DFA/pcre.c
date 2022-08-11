@@ -1,7 +1,6 @@
 /*
  *
- * Fast Match test with posix regex
- * by Cooler_
+ * Fast Match test with PCRE for regex
  * c00f3r@gmail.com
  *
  * 
