@@ -1,6 +1,6 @@
 /*
  *
- * Fast Match test with posix regex
+ * Fast Match test with re2c direct DFA
  * by Cooler_
  * c00f3r@gmail.com
  *
